@@ -1,73 +1,98 @@
-# React + TypeScript + Vite
+# React Query TanStack Query
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A learning project demonstrating data fetching with [TanStack Query](https://tanstack.com/query), axios, and [json-server](https://github.com/typicode/json-server). The app fetches a list of students from a mock REST API and renders them using `useQuery`.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 + TypeScript + Vite
+- [@tanstack/react-query](https://tanstack.com/query) — server state management
+- [axios](https://axios-http.com/) — HTTP client
+- [json-server](https://github.com/typicode/json-server) — mock REST API
 
-## React Compiler
+## Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js and npm
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Install dependencies, then run the mock API and dev server in **two separate terminals**:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Terminal 1 — mock API:**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm run api
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Starts json-server at [http://localhost:3000](http://localhost:3000), watching `students.json` for changes.
+
+**Terminal 2 — frontend:**
+
+```bash
+npm run dev
+```
+
+Opens the Vite dev server at [http://localhost:5173](http://localhost:5173).
+
+> `json-server` is a local dependency. Use `npm run api` or `npx json-server students.json` — a global install is not required.
+
+## Available Scripts
+
+| Script    | Description                                |
+| --------- | ------------------------------------------ |
+| `dev`     | Start Vite dev server                      |
+| `api`     | Start json-server watching `students.json` |
+| `build`   | Type-check and production build            |
+| `preview` | Preview production build                   |
+| `lint`    | Run ESLint                                 |
+
+## API Endpoints
+
+Provided by json-server from [`students.json`](students.json):
+
+| Method | Endpoint                              | Description       |
+| ------ | ------------------------------------- | ----------------- |
+| GET    | `http://localhost:3000/students`      | List all students |
+| GET    | `http://localhost:3000/students/:id` | Get one student   |
+
+Each student object has the following shape:
+
+```json
+{
+  "id": 1,
+  "name": "John Doe",
+  "age": 20,
+  "grade": "A",
+  "email": "john.doe@example.com"
+}
+```
+
+## How It Works
+
+```mermaid
+flowchart LR
+  StudentComponent["Student.tsx"] --> useQuery
+  useQuery --> fetchStudents
+  fetchStudents --> axios
+  axios --> jsonServer["json-server :3000"]
+  jsonServer --> studentsJson["students.json"]
+```
+
+1. [`src/main.tsx`](src/main.tsx) wraps the app in `QueryClientProvider`.
+2. [`src/components/Student.tsx`](src/components/Student.tsx) calls `useQuery` with `queryKey: ['student']` and a `queryFn` that fetches from the API via axios.
+3. On mount, TanStack Query automatically runs the fetch — no manual call needed.
+4. Loading and error states are handled before rendering the student list.
+
+## Project Structure
+
+```
+├── students.json          # Mock API data
+├── src/
+│   ├── main.tsx           # QueryClientProvider setup
+│   ├── App.tsx            # Renders Student component
+│   └── components/
+│       └── Student.tsx    # useQuery + student list
 ```
