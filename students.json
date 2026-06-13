@@ -1,0 +1,74 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "age": 20,
+      "grade": "A",
+      "email": "john.doe@example.com"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "age": 22,
+      "grade": "B",
+      "email": "jane.smith@example.com"
+    },
+    {
+      "id": 3,
+      "name": "Michael Johnson",
+      "age": 21,
+      "grade": "A",
+      "email": "michael.johnson@example.com"
+    },
+    {
+      "id": 4,
+      "name": "Emily Davis",
+      "age": 19,
+      "grade": "C",
+      "email": "emily.davis@example.com"
+    },
+    {
+      "id": 5,
+      "name": "David Wilson",
+      "age": 23,
+      "grade": "B",
+      "email": "david.wilson@example.com"
+    },
+    {
+      "id": 6,
+      "name": "Sarah Brown",
+      "age": 20,
+      "grade": "A",
+      "email": "sarah.brown@example.com"
+    },
+    {
+      "id": 7,
+      "name": "James Taylor",
+      "age": 22,
+      "grade": "D",
+      "email": "james.taylor@example.com"
+    },
+    {
+      "id": 8,
+      "name": "Olivia Martinez",
+      "age": 21,
+      "grade": "B",
+      "email": "olivia.martinez@example.com"
+    },
+    {
+      "id": 9,
+      "name": "Daniel Anderson",
+      "age": 24,
+      "grade": "A",
+      "email": "daniel.anderson@example.com"
+    },
+    {
+      "id": 10,
+      "name": "Sophia Garcia",
+      "age": 20,
+      "grade": "C",
+      "email": "sophia.garcia@example.com"
+    }
+  ]
+}
